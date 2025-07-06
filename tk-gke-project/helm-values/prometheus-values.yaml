@@ -1,0 +1,11 @@
+grafana:
+  enabled: false   # Disable Grafana in this chart since you deploy it separately
+
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 10Gi

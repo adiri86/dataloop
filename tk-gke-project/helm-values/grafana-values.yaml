@@ -1,0 +1,16 @@
+service:
+  type: LoadBalancer
+
+ingress:
+  enabled: false  # We use LoadBalancer for now
+
+adminUser: admin
+adminPassword: "YOUR_PASSWORD"  # Change this
+
+# Only allow access from specific IPs (LoadBalancer IP whitelist)
+grafana:
+  extraExpose:
+    loadBalancerSourceRanges:
+      - "YOUR_PUBLIC_IP"/32
+
+
