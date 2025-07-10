@@ -92,18 +92,20 @@ Grant these roles:
 
 
 2. Enable Required APIs
-Go to: https://console.cloud.google.com/marketplace/product/google/container.googleapis.com
-
+	Go to:
+	
+	https://console.cloud.google.com/marketplace/product/google/container.googleapis.com
+	
 	Click Enable for the following:
-
-	Service	Purpose
-	Kubernetes Engine API	For creating GKE clusters
-	Compute Engine API	Needed for creating LBs, disks
-	IAM Service Account Credentials API	Needed for SA usage
-	Cloud Resource Manager API (optional)	If managing orgs/projects
-
+	
+	Service	Purpose:
+	✅Kubernetes Engine API	                   For creating GKE clusters
+	✅Compute Engine API	                   Needed for creating LBs, disks
+	✅IAM Service Account Credentials API	   Needed for SA usage
+	✅Cloud Resource Manager API (optional)	   If managing orgs/projects
+	
 	Or run this in gcloud:
-
+	
 	gcloud services enable container.googleapis.com compute.googleapis.com iamcredentials.googleapis.com
 
 
