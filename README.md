@@ -57,30 +57,27 @@ tf-gke-project/
 ✅ 1. Create a Service Account and JSON Key
 🔹 Step-by-Step via Console
 Go to: https://console.cloud.google.com/iam-admin/serviceaccounts
-
 Click "Create Service Account"
 
 Set:
+	Name: terraform
+	ID: terraform
 
-Name: terraform
+Click Create and Continue.
 
-ID: terraform
+1a.Grant these roles:
+	
+	✅ Kubernetes Engine Admin (roles/container.admin)
+	
+	✅ Compute Admin (roles/compute.admin)
+	
+	✅ Service Account User (roles/iam.serviceAccountUser)
+	
+	✅ (optional) Storage Admin (roles/storage.admin) if needed
+	
+	Click Done
 
-Click Create and Continue
-
-Grant these roles:
-
-✅ Kubernetes Engine Admin (roles/container.admin)
-
-✅ Compute Admin (roles/compute.admin)
-
-✅ Service Account User (roles/iam.serviceAccountUser)
-
-✅ (optional) Storage Admin (roles/storage.admin) if needed
-
-Click Done
-
-🔑 Download JSON Key
+1b. Download JSON Key
 	Find the new SA in the list.
 
 	Click ⋮ → Manage Keys
@@ -92,7 +89,7 @@ Click Done
 
 
 
- 2. Enable Required APIs
+2. Enable Required APIs
 Go to: https://console.cloud.google.com/marketplace/product/google/container.googleapis.com
 
 	Click Enable for the following:
@@ -111,9 +108,7 @@ Go to: https://console.cloud.google.com/marketplace/product/google/container.goo
 
 
 
- 3. Assign IAM Roles to the Service Account
-You can do this:
-
+3. Assign IAM Roles to the Service Account
 	🅰️ Via Console (IAM → Permissions)
 	Go to https://console.cloud.google.com/iam-admin/iam
 
@@ -151,12 +146,9 @@ You can do this:
   
 
   
-✅ 4. Use the Service Account in Terraform
-In your provider.tf:
+4. Use the Service Account in Terraform
+In provider.tf:
 
-hcl
-Copy
-Edit
 provider "google" {
   credentials = file("path/to/terraform-sa.json")
   project     = "your-project-id"
@@ -164,17 +156,14 @@ provider "google" {
 }
 
 
-
-
 5.
-gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-gcloud auth application-default login
+	gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+	gcloud auth application-default login
 
 
 
 6. Initialize Terraform
 terraform init
-
 
 
 7. Plan & Apply
