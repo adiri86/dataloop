@@ -54,33 +54,138 @@ tf-gke-project/
 
 ## Setup Instructions
 
-### 1. Authentication
+✅ 1. Create a Service Account and JSON Key
+🔹 Step-by-Step via Console
+Go to: https://console.cloud.google.com/iam-admin/serviceaccounts
 
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS="<path-to-sa-key>.json"
+Click "Create Service Account"
+
+Set:
+
+Name: terraform
+
+ID: terraform
+
+Click Create and Continue
+
+Grant these roles:
+
+✅ Kubernetes Engine Admin (roles/container.admin)
+
+✅ Compute Admin (roles/compute.admin)
+
+✅ Service Account User (roles/iam.serviceAccountUser)
+
+✅ (optional) Storage Admin (roles/storage.admin) if needed
+
+Click Done
+
+🔑 Download JSON Key
+	Find the new SA in the list.
+
+	Click ⋮ → Manage Keys
+
+	Click "Add Key" → JSON
+
+	Save the .json file securely. This is the key you use in provider.tf.
+
+
+
+
+ 2. Enable Required APIs
+Go to: https://console.cloud.google.com/marketplace/product/google/container.googleapis.com
+
+	Click Enable for the following:
+
+	Service	Purpose
+	Kubernetes Engine API	For creating GKE clusters
+	Compute Engine API	Needed for creating LBs, disks
+	IAM Service Account Credentials API	Needed for SA usage
+	Cloud Resource Manager API (optional)	If managing orgs/projects
+
+	Or run this in gcloud:
+
+	gcloud services enable container.googleapis.com compute.googleapis.com iamcredentials.googleapis.com
+
+
+
+
+
+ 3. Assign IAM Roles to the Service Account
+You can do this:
+
+	🅰️ Via Console (IAM → Permissions)
+	Go to https://console.cloud.google.com/iam-admin/iam
+
+	Click "Grant access"
+
+	Select the service account email
+
+	Assign:
+
+	Kubernetes Engine Admin
+
+	Compute Admin
+
+	Service Account User
+
+	🅱️ Or via gcloud:
+	bash
+	Copy
+	Edit
+	PROJECT_ID="your-project-id"
+	SA_EMAIL="terraform@${PROJECT_ID}.iam.gserviceaccount.com"
+
+	gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+	  --member="serviceAccount:${SA_EMAIL}" \
+	  --role="roles/container.admin"
+
+	gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+	  --member="serviceAccount:${SA_EMAIL}" \
+	  --role="roles/compute.admin"
+
+	gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+	  --member="serviceAccount:${SA_EMAIL}" \
+	  --role="roles/iam.serviceAccountUser"
+  
+  
+
+  
+✅ 4. Use the Service Account in Terraform
+In your provider.tf:
+
+hcl
+Copy
+Edit
+provider "google" {
+  credentials = file("path/to/terraform-sa.json")
+  project     = "your-project-id"
+  region      = "us-east4"
+}
+
+
+
+
+5.
 gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
 gcloud auth application-default login
-```
 
-### 2. Initialize Terraform
 
-```bash
+
+6. Initialize Terraform
 terraform init
-```
 
-### 3. Plan & Apply
 
-```bash
+
+7. Plan & Apply
 terraform plan
 terraform apply -auto-approve
-```
 
-### 4. Connect to Cluster
 
-```bash
+
+8. Connect to Cluster
 gcloud container clusters get-credentials <CLUSTER_NAME> --region <REGION> --project <PROJECT_ID>
 kubectl get nodes
-```
 
 ---
 
