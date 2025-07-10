@@ -67,17 +67,19 @@ tf-gke-project/
 
 1a.Grant these roles:
 	
-	  Kubernetes Engine Admin (roles/container.admin)
-	
-	 Compute Admin (roles/compute.admin)
-	
-	 Service Account User (roles/iam.serviceAccountUser)
-	
-	 (optional) Storage Admin (roles/storage.admin) if needed
+Grant these roles:
+
+		✅ Kubernetes Engine Admin (roles/container.admin)
+		
+		✅ Compute Admin (roles/compute.admin)
+		
+		✅ Service Account User (roles/iam.serviceAccountUser)
+		
+		✅ (optional) Storage Admin (roles/storage.admin) if needed
 	
 	Click Done
 
-1b. Download JSON Key
+1b. 🔑 Download JSON Key
 	Find the new SA in the list.
 
 	Click ⋮ → Manage Keys
@@ -108,8 +110,9 @@ Go to: https://console.cloud.google.com/marketplace/product/google/container.goo
 
 
 
-3. Assign IAM Roles to the Service Account
+3. Assign IAM Roles to the Service Account:
 	🅰️ Via Console (IAM → Permissions)
+
 	Go to https://console.cloud.google.com/iam-admin/iam
 
 	Click "Grant access"
@@ -117,32 +120,28 @@ Go to: https://console.cloud.google.com/marketplace/product/google/container.goo
 	Select the service account email
 
 	Assign:
-
-	Kubernetes Engine Admin
-
-	Compute Admin
-
-	Service Account User
+			✅ Kubernetes Engine Admin
+			✅ Compute Admin			
+			✅ Service Account User
+			✅ (Optional) Storage Admin
 
 	🅱️ Or via gcloud:
-	bash
-	Copy
-	Edit
-	PROJECT_ID="your-project-id"
-	SA_EMAIL="terraform@${PROJECT_ID}.iam.gserviceaccount.com"
 
-	gcloud projects add-iam-policy-binding "$PROJECT_ID" \
-	  --member="serviceAccount:${SA_EMAIL}" \
-	  --role="roles/container.admin"
-
-	gcloud projects add-iam-policy-binding "$PROJECT_ID" \
-	  --member="serviceAccount:${SA_EMAIL}" \
-	  --role="roles/compute.admin"
-
-	gcloud projects add-iam-policy-binding "$PROJECT_ID" \
-	  --member="serviceAccount:${SA_EMAIL}" \
-	  --role="roles/iam.serviceAccountUser"
-  
+			PROJECT_ID="your-project-id"
+			SA_EMAIL="terraform@${PROJECT_ID}.iam.gserviceaccount.com"
+		
+			gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+			  --member="serviceAccount:${SA_EMAIL}" \
+			  --role="roles/container.admin"
+		
+			gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+			  --member="serviceAccount:${SA_EMAIL}" \
+			  --role="roles/compute.admin"
+		
+			gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+			  --member="serviceAccount:${SA_EMAIL}" \
+			  --role="roles/iam.serviceAccountUser"
+		  
   
 
   
