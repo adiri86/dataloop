@@ -54,26 +54,26 @@ tf-gke-project/
 
 ## Setup Instructions
 
-✅ 1. Create a Service Account and JSON Key
-🔹 Step-by-Step via Console
-Go to: https://console.cloud.google.com/iam-admin/serviceaccounts
-Click "Create Service Account"
-
-Set:
-	Name: terraform
-	ID: terraform
-
-Click Create and Continue.
+ 1. Create a Service Account and JSON Key
+	Step-by-Step via Console
+	Go to: https://console.cloud.google.com/iam-admin/serviceaccounts
+	Click "Create Service Account"
+	
+	Set:
+		Name: terraform
+		ID: terraform
+	
+	Click Create and Continue.
 
 1a.Grant these roles:
 	
-	✅ Kubernetes Engine Admin (roles/container.admin)
+	  Kubernetes Engine Admin (roles/container.admin)
 	
-	✅ Compute Admin (roles/compute.admin)
+	 Compute Admin (roles/compute.admin)
 	
-	✅ Service Account User (roles/iam.serviceAccountUser)
+	 Service Account User (roles/iam.serviceAccountUser)
 	
-	✅ (optional) Storage Admin (roles/storage.admin) if needed
+	 (optional) Storage Admin (roles/storage.admin) if needed
 	
 	Click Done
 
